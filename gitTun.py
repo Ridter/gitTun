@@ -70,8 +70,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             logging.debug("Req Headers:\n{}".format(self.get_headers()))
             resp = requests.get(target_url, verify=False, headers=self.get_headers(), timeout=10)
             self.send_response_only(int(resp.status_code))
-            # 没使用Resp的Header获取数据，所以这里不需要
-            # self.pass_headers(resp.headers)
+            self.pass_headers(resp.headers)
             self.end_headers()
             logging.debug("Resp Headers:\n\n{}".format(resp.headers))
             logging.debug("Resp:\n\n{}\n{}\n".format(resp.text, '-'*30))
@@ -134,7 +133,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def pass_headers(self, headers):
         for h in headers:
-            if h.lower() not in ['connection', 'keep-alive']:
+            if h.lower() not in ['connection', 'keep-alive', 'transfer-encoding']:
                 self.send_header(h, headers[h])
 
 def main():
