@@ -102,6 +102,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def send_default_page(self):
         self.send_response_only(404)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
         self.end_headers()
         self.send_html()
 
